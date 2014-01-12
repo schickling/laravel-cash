@@ -1,11 +1,11 @@
 laravel-cash [![Build Status](https://travis-ci.org/schickling/laravel-cash.png?branch=master)](https://travis-ci.org/schickling/laravel-cash) [![Coverage Status](https://coveralls.io/repos/schickling/laravel-cash/badge.png)](https://coveralls.io/r/schickling/laravel-cash) [![Total Downloads](https://poser.pugx.org/schickling/laravel-cash/downloads.png)](https://packagist.org/packages/schickling/laravel-cash)
 ============
 
-Simple to use cache layer for your laravel application using memcached & nginx. ~400% more performance.
+Simple to use cache layer for your laravel application using memcached & nginx. ~400% faster responses.
 
 #### Warning: Still in development. First release coming soon!
 
-## Installation
+## Installation - Laravel 4.1 required
 
 1. If you don't have memcached already installed, follow this [guide](https://github.com/schickling/laravel-cash/blob/master/doc/MEMCACHED.md).
 
