@@ -9,9 +9,6 @@ class CashTest extends TestCase
     public function setUp() 
     {
         parent::setUp();
-
-        $this->invalidator = m::mock('Schickling\Cash\InvalidatorInterface');
-        $this->app->instance('Schickling\Cash\InvalidatorInterface', $this->invalidator);
     }
 
     protected function getPackageProviders()
