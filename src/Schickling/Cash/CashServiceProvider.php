@@ -3,6 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Route;
 use App;
+use Cache;
 
 class CashServiceProvider extends ServiceProvider {
 
@@ -42,11 +43,16 @@ class CashServiceProvider extends ServiceProvider {
             return $cash;
         });
 
-        // Shortcut so developers don't need to add an alias in app/config/app.php
+        $this->app['memcachedInstance'] = $this->app->share(function($app)
+        {
+            return Cache::driver('memcached');
+        });
+
         $this->app->booting(function()
         {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Cash', 'Schickling\Cash\Facades\Cash');
+            $loader->alias('MemcachedInstance', 'Schickling\Cash\Facades\MemcachedInstance');
         });
     }
 

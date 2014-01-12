@@ -2,6 +2,7 @@
 
 use App;
 use Request;
+use MemcachedInstance;
 
 class Cash
 {
@@ -10,6 +11,11 @@ class Cash
 
     public function rule($method, $triggerRoute, $invalidationRoutes)
     {
+        if (is_string($invalidationRoutes))
+        {
+            $invalidationRoutes = array($invalidationRoutes);
+        }
+
         array_push($this->rules, array(
             'method' => $method,
             'trigger' => $triggerRoute,
@@ -19,11 +25,12 @@ class Cash
     public function checkInvalidation()
     {
         $currentRoute = Request::path();
-        $currentMethod = Request::getMethod(); 
+        $currentMethod = strtolower(Request::getMethod());
         foreach ($this->rules as $rule)
         {
             $pattern = $this->stringToRegex($rule['trigger']);
-            if ($currentMethod == $rule['method'] && preg_match($pattern, $currentRoute))
+            if ($currentMethod == strtolower($rule['method'])
+                && preg_match($pattern, $currentRoute))
             {
                 foreach ($rule['routes'] as $route)
                 {
@@ -35,7 +42,7 @@ class Cash
 
     public function invalidate($route)
     {
-        
+       MemcachedInstance::test();
     }
 
     private function stringToRegex($string)

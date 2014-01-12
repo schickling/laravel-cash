@@ -9,6 +9,19 @@ class CashTest extends TestCase
     public function setUp() 
     {
         parent::setUp();
+
+        Route::any('{anything}', function()
+        {
+            return 'Hello World';
+        })->where('anything', '.*');
+
+        $this->app['router']->enableFilters();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+        m::close();
     }
 
     protected function getPackageProviders()
@@ -18,7 +31,10 @@ class CashTest extends TestCase
 
     public function testSimpleRule()
     {
-        Cash::rule('get', 'some/route', 'some/other/route');
+        Cash::rule('put', 'some/route', 'some/other/route');
+        \MemcachedInstance::shouldReceive('test')->once();
+
+        $this->call('PUT', 'some/route');
     }
 
 }

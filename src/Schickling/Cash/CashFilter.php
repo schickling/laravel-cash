@@ -1,6 +1,6 @@
 <?php namespace Schickling\Cash;
 
-use Cache;
+use MemcachedInstance;
 use Memcached;
 use Request;
 
@@ -12,10 +12,13 @@ class CashFilter {
         {
             $path = '/' . Request::path();
             $content = $response->getContent();
-            $cache = Cache::driver('memcached');
-            $memcached = $cache->getMemcached();
+
+            // switch of serialization
+            $memcached = MemcachedInstance::getMemcached();
             $memcached->setOption(Memcached::OPT_COMPRESSION, false);
-            $cache->put($path, $content, 0);
+
+            // cache response
+            MemcachedInstance::put($path, $content, 0);
         }
     }
 
