@@ -1,5 +1,5 @@
 {
-    "name": "johannes/laravel-cash",
+    "name": "schickling/laravel-cash",
     "description": "Simple to use cache layer for your laravel application using memcached.",
     "require": {
         "laravel/framework": "4.*"
