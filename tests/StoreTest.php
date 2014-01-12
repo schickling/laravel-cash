@@ -95,7 +95,7 @@ class StoreTest extends TestCase
 
     public function testStoringMoreComplexUrl()
     {
-        Route::get('/hello/1/3/more/complex', array('after' => 'cash', function()
+        Route::get('hello/{a}/{b}/more/complex', array('after' => 'cash', function()
         {
             return 'Hello World';
         }));
@@ -104,14 +104,36 @@ class StoreTest extends TestCase
                             ->with('/hello/1/3/more/complex', 'Hello World', 0)
                             ->once();
         \MemcachedInstance::shouldReceive('get')
-                            ->with('/hello/1/3/more/complex')
+                            ->with('/hello')
                             ->once()
                             ->andReturn(null);
         \MemcachedInstance::shouldReceive('put')
-                            ->with('/hello/1/3/more/complex', '/hello/1/3/more/complex', 0)
+                            ->with('/hello', '/hello/1/3/more/complex', 0)
                             ->once();
         
         $this->call('GET', 'hello/1/3/more/complex');
     }
+
+    public function testStoringWithAlreadyCachedResponses()
+    {
+        Route::get('a/{b}', array('after' => 'cash', function()
+        {
+            return 'Hello World';
+        }));
+
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/a/2', 'Hello World', 0)
+                            ->once();
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('/a')
+                            ->once()
+                            ->andReturn('/a/1');
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/a', '/a/1;/a/2', 0)
+                            ->once();
+        
+        $this->call('GET', 'a/2');
+    }
+
 
 }
