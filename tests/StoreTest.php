@@ -11,11 +11,6 @@ class StoreTest extends TestCase
     {
         parent::setUp();
 
-        Route::any('{anything}', array('after' => 'cash', function()
-        {
-            return 'Hello World';
-        }))->where('anything', '.*');
-
         $this->app['router']->enableFilters();
         
         $memcachedMock = m::mock(array('setOption' => null));
@@ -37,8 +32,20 @@ class StoreTest extends TestCase
 
     public function testStoring()
     {
+        Route::get('hello', array('after' => 'cash', function()
+        {
+            return 'Hello World';
+        }));
+
         \MemcachedInstance::shouldReceive('put')
                             ->with('/hello', 'Hello World', 0)
+                            ->once();
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('/hello')
+                            ->once()
+                            ->andReturn(null);
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/hello', '/hello', 0)
                             ->once();
         
         $this->call('GET', 'hello');
@@ -46,8 +53,20 @@ class StoreTest extends TestCase
 
     public function testStoringWithPrependingSlash()
     {
+        Route::get('/hello', array('after' => 'cash', function()
+        {
+            return 'Hello World';
+        }));
+
         \MemcachedInstance::shouldReceive('put')
                             ->with('/hello', 'Hello World', 0)
+                            ->once();
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('/hello')
+                            ->once()
+                            ->andReturn(null);
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/hello', '/hello', 0)
                             ->once();
         
         $this->call('GET', '/hello');
@@ -55,8 +74,20 @@ class StoreTest extends TestCase
     
     public function testStoringWithPrependingSlashOnly()
     {
+        Route::get('/', array('after' => 'cash', function()
+        {
+            return 'Hello World';
+        }));
+
         \MemcachedInstance::shouldReceive('put')
                             ->with('/', 'Hello World', 0)
+                            ->once();
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('/')
+                            ->once()
+                            ->andReturn(null);
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/', '/', 0)
                             ->once();
         
         $this->call('GET', '/');
@@ -64,8 +95,20 @@ class StoreTest extends TestCase
 
     public function testStoringMoreComplexUrl()
     {
+        Route::get('/hello/1/3/more/complex', array('after' => 'cash', function()
+        {
+            return 'Hello World';
+        }));
+
         \MemcachedInstance::shouldReceive('put')
                             ->with('/hello/1/3/more/complex', 'Hello World', 0)
+                            ->once();
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('/hello/1/3/more/complex')
+                            ->once()
+                            ->andReturn(null);
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/hello/1/3/more/complex', '/hello/1/3/more/complex', 0)
                             ->once();
         
         $this->call('GET', 'hello/1/3/more/complex');

@@ -3,6 +3,7 @@
 use MemcachedInstance;
 use Memcached;
 use Request;
+use Route;
 
 class CashFilter {
 
@@ -12,6 +13,7 @@ class CashFilter {
         {
             $path = Request::path();
             $content = $response->getContent();
+            $routeName = Route::getCurrentRoute()->getCompiled()->getStaticPrefix();
 
             // prepend slash if not there already
             if (substr($path, 0, 1) != '/')
@@ -25,6 +27,18 @@ class CashFilter {
 
             // cache response
             MemcachedInstance::put($path, $content, 0);
+
+            // tag cached response
+            $tag = MemcachedInstance::get($routeName);
+            if ($tag)
+            {
+                $tag = $tag . ';' . $path;    
+            }
+            else
+            {
+                $tag = $path;
+            }
+            MemcachedInstance::put($routeName, $tag, 0);
         }
     }
 
