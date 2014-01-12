@@ -1,6 +1,6 @@
 {
     "name": "schickling/laravel-cash",
-    "description": "Simple to use cache layer for your laravel application using memcached.",
+    "description": "Simple to use cache layer for your laravel application using memcached & nginx.",
     "require": {
         "ext-memcached": "*"
     },
