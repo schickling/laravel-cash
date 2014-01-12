@@ -2,8 +2,16 @@
 
 use Illuminate\Support\ServiceProvider;
 use Route;
+use App;
 
 class CashServiceProvider extends ServiceProvider {
+
+    protected $cash;
+
+    public function __construct($app) {
+        parent::__construct($app);
+        $this->cash = new Cash;
+    }
 
     /**
      * Bootstrap the application events.
@@ -13,6 +21,12 @@ class CashServiceProvider extends ServiceProvider {
     public function boot()
     {
         Route::filter('cash', 'Schickling\Cash\CashFilter');
+
+        $cash = $this->cash;
+        App::after(function($request, $response) use ($cash)
+        {
+            $cash->checkInvalidation();
+        });
     }
 
     /**
@@ -22,10 +36,10 @@ class CashServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-
-        $this->app['apicache'] = $this->app->share(function($app)
+        $cash = $this->cash;
+        $this->app['cash'] = $this->app->share(function($app) use ($cash)
         {
-            return new Cash;
+            return $cash;
         });
 
         // Shortcut so developers don't need to add an alias in app/config/app.php
