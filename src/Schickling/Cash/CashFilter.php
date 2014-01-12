@@ -10,8 +10,14 @@ class CashFilter {
     {
         if (Request::getMethod() == 'GET')
         {
-            $path = '/' . Request::path();
+            $path = Request::path();
             $content = $response->getContent();
+
+            // prepend slash if not there already
+            if (substr($path, 0, 1) != '/')
+            {
+                $path = '/' . $path;
+            }
 
             // switch of serialization
             $memcached = MemcachedInstance::getMemcached();

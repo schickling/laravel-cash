@@ -11,10 +11,10 @@ class StoreTest extends TestCase
     {
         parent::setUp();
 
-        Route::get('hello', array('after' => 'cash', function()
+        Route::any('{anything}', array('after' => 'cash', function()
         {
             return 'Hello World';
-        }));
+        }))->where('anything', '.*');
 
         $this->app['router']->enableFilters();
         
@@ -51,6 +51,24 @@ class StoreTest extends TestCase
                             ->once();
         
         $this->call('GET', '/hello');
+    }
+    
+    public function testStoringWithPrependingSlashOnly()
+    {
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/', 'Hello World', 0)
+                            ->once();
+        
+        $this->call('GET', '/');
+    }
+
+    public function testStoringMoreComplexUrl()
+    {
+        \MemcachedInstance::shouldReceive('put')
+                            ->with('/hello/1/3/more/complex', 'Hello World', 0)
+                            ->once();
+        
+        $this->call('GET', 'hello/1/3/more/complex');
     }
 
 }
