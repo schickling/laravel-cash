@@ -68,3 +68,4 @@ server {
 
 ### Flush cache
 Simply restart memcached.
+

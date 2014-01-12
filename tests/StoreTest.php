@@ -95,23 +95,23 @@ class StoreTest extends TestCase
 
     public function testStoringMoreComplexUrl()
     {
-        Route::get('hello/{a}/{b}/more/complex', array('after' => 'cash', function()
+        Route::get('hello/{a}/more/{b}/complex', array('after' => 'cash', function()
         {
             return 'Hello World';
         }));
 
         \MemcachedInstance::shouldReceive('put')
-                            ->with('/hello/1/3/more/complex', 'Hello World', 0)
+                            ->with('/hello/1/more/3/complex', 'Hello World', 0)
                             ->once();
         \MemcachedInstance::shouldReceive('get')
                             ->with('/hello')
                             ->once()
                             ->andReturn(null);
         \MemcachedInstance::shouldReceive('put')
-                            ->with('/hello', '/hello/1/3/more/complex', 0)
+                            ->with('/hello', '/hello/1/more/3/complex', 0)
                             ->once();
         
-        $this->call('GET', 'hello/1/3/more/complex');
+        $this->call('GET', 'hello/1/more/3/complex');
     }
 
     public function testStoringWithAlreadyCachedResponses()
