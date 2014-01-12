@@ -13,3 +13,5 @@ $ brew tap homebrew/dupes
 $ brew tap josegonzalez/homebrew-php
 $ brew install php55-memcached
 ```
+
+If you are reading this, please make a pull request and improve this article.
