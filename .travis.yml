@@ -4,10 +4,9 @@ php:
   - 5.3
   - 5.4
   - 5.5
-  - hhvm
 
 before_script:
-  - [ -d ~/.phpenv/versions/$(phpenv version-name) ] && echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer install --dev
 
 script: phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
