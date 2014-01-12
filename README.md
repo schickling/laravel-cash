@@ -69,3 +69,8 @@ server {
 ### Flush cache
 Simply restart memcached.
 
+
+## TODO
+
+* Support for named routes
+* More precise hierarchic invalidation
