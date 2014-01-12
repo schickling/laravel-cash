@@ -17,5 +17,10 @@
             "email": "schickling.j@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-0": {
+            "Schickling\\Cash": "src/"
+        }
+    },
     "minimum-stability": "dev"
 }
