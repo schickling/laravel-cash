@@ -1,4 +1,4 @@
-<?php namespace Services\Cash;
+<?php namespace Schickling\Cash;
 
 use Cache;
 use Memcached;
@@ -17,7 +17,7 @@ class CashFilter {
             $memcached->setOption(Memcached::OPT_COMPRESSION, false);
             $cache->put($path, $content, 0);
         }
-    } 
+    }
 
 }
 

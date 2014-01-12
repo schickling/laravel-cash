@@ -1,4 +1,4 @@
-<?php namespace Services\Cash;
+<?php namespace Schickling\Cash;
 
 use Illuminate\Support\ServiceProvider;
 use Route;
@@ -12,7 +12,7 @@ class CashServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        Route::filter('cash', 'Services\Cash\CashFilter');
+        Route::filter('cash', 'Schickling\Cash\CashFilter');
     }
 
     /**
@@ -32,7 +32,7 @@ class CashServiceProvider extends ServiceProvider {
         $this->app->booting(function()
         {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('Cash', 'Services\Cash\Facades\Cash');
+            $loader->alias('Cash', 'Schickling\Cash\Facades\Cash');
         });
     }
 
