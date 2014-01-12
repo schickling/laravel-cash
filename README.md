@@ -1,4 +1,4 @@
-laravel-cash [![Build Status](https://travis-ci.org/schickling/laravel-cash.png?branch=master)](https://travis-ci.org/schickling/laravel-cash)
+laravel-cash [![Build Status](https://travis-ci.org/schickling/laravel-cash.png?branch=master)](https://travis-ci.org/schickling/laravel-cash) [![Coverage Status](https://coveralls.io/repos/schickling/laravel-cash/badge.png)](https://coveralls.io/r/schickling/laravel-cash) [![Latest Stable Version](https://poser.pugx.org/schickling/laravel-cash/v/stable.png)](https://packagist.org/packages/schickling/laravel-cash)
 ============
 
 Simple to use cache layer for your laravel application using memcached & nginx. ~400% more performance.
