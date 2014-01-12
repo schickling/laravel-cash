@@ -1,7 +1,7 @@
 laravel-cash [![Build Status](https://travis-ci.org/schickling/laravel-cash.png?branch=master)](https://travis-ci.org/schickling/laravel-cash)
 ============
 
-Simple to use cache layer for your laravel application using memcached & nginx. Reduces response time by ~400%.
+Simple to use cache layer for your laravel application using memcached & nginx. ~400% more performance.
 
 ## Installation
 
