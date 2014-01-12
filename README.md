@@ -1,4 +1,4 @@
 laravel-cash
 ============
 
-Simple cache layer for your laravel application using Memcached.
+Simple to use cache layer for your laravel application using memcached.
