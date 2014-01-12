@@ -5,7 +5,7 @@ Simple to use cache layer for your laravel application using memcached.
 
 ## Installation
 
-If you don't have memcached already installed follow this [guide](https://github.com/schickling/laravel-cash/blob/master/doc/MEMCACHED.md).
+0. If you don't have memcached already installed follow this [guide](https://github.com/schickling/laravel-cash/blob/master/doc/MEMCACHED.md).
 
 1. Add the following to your composer.json and run `composer update`
 
