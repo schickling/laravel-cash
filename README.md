@@ -3,6 +3,8 @@ laravel-cash [![Build Status](https://travis-ci.org/schickling/laravel-cash.png?
 
 Simple to use cache layer for your laravel application using memcached & nginx. ~400% more performance.
 
+## Warning: Still under development. First release coming soon!
+
 ## Installation
 
 1. If you don't have memcached already installed, follow this [guide](https://github.com/schickling/laravel-cash/blob/master/doc/MEMCACHED.md).
