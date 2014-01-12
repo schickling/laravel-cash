@@ -1,0 +1,15 @@
+{
+    "name": "johannes/laravel-cash",
+    "description": "Simple to use cache layer for your laravel application using memcached.",
+    "require": {
+        "laravel/framework": "4.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Johannes Schickling",
+            "email": "schickling.j@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
