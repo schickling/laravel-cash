@@ -19,13 +19,15 @@ class Cash
         array_push($this->rules, array(
             'method' => $method,
             'trigger' => $triggerRoute,
-            'routes' => $invalidationRoutes));
+            'routes' => $invalidationRoutes)
+        );
     }
 
     public function checkInvalidation()
     {
         $currentRoute = Request::path();
         $currentMethod = strtolower(Request::getMethod());
+
         foreach ($this->rules as $rule)
         {
             $pattern = $this->stringToRegex($rule['trigger']);
@@ -42,7 +44,7 @@ class Cash
 
     public function invalidate($route)
     {
-       MemcachedInstance::test();
+       MemcachedInstance::forget('/' . $route);
     }
 
     private function stringToRegex($string)

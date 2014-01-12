@@ -32,7 +32,16 @@ class CashTest extends TestCase
     public function testSimpleRule()
     {
         Cash::rule('put', 'some/route', 'some/other/route');
-        \MemcachedInstance::shouldReceive('test')->once();
+        \MemcachedInstance::shouldReceive('forget')->with('/some/other/route')->once();
+
+        $this->call('PUT', 'some/route');
+    }
+
+    public function testRuleWithArrayNotation()
+    {
+        Cash::rule('put', 'some/route', array('a', 'b'));
+        \MemcachedInstance::shouldReceive('forget')->with('/a')->once();
+        \MemcachedInstance::shouldReceive('forget')->with('/b')->once();
 
         $this->call('PUT', 'some/route');
     }
