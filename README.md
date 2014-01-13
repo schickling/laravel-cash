@@ -61,14 +61,23 @@ server {
 ## Usage
 
 ### Add cache filter to routes
+Add the `'after' => 'cash'` filter to `GET` routes you want to be cached. Works also for groups of routes.
+
+```php
+Route::get('my/route', array('after' => 'cash', function() {
+	return "Hello World";
+}));
+```
 
 ### Define invalidation roules
+
 
 ### Flush cache
 Simply restart memcached.
 
 
-## TODO
+## TODO (please contribute a [pull request](https://github.com/schickling/laravel-cash/compare/))
 
 * Support for named routes
 * More precise hierarchic invalidation
+* Simpler rule definitions
