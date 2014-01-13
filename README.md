@@ -100,3 +100,4 @@ Simply restart memcached.
 * More precise hierarchic invalidation
 * Apache support
 * Memcache support
+* Cache warmup
