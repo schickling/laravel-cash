@@ -2,6 +2,7 @@
 
 use App;
 use Request;
+use Illuminate\Routing\Route;
 use MemcachedInstance;
 
 class Cash
@@ -44,7 +45,10 @@ class Cash
 
     public function invalidate($route)
     {
-       MemcachedInstance::forget('/' . $route);
+        $routesToInvalidate = explode(';', MemcachedInstance::get($route));
+        foreach ($routesToInvalidate as $cacheKey) {
+            MemcachedInstance::forget($cacheKey);
+        }
     }
 
     private function stringToRegex($string)

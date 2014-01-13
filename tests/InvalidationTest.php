@@ -10,11 +10,7 @@ class CashTest extends TestCase
     {
         parent::setUp();
 
-        Route::any('{anything}', function()
-        {
-            return 'Hello World';
-        })->where('anything', '.*');
-
+        Route::any('{anything}', function() {})->where('anything', '.*');
         $this->app['router']->enableFilters();
     }
 
@@ -32,7 +28,13 @@ class CashTest extends TestCase
     public function testSimpleRule()
     {
         Cash::rule('put', 'some/route', 'some/other/route');
-        \MemcachedInstance::shouldReceive('forget')->with('/some/other/route')->once();
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('some/other/route')
+                            ->once()
+                            ->andReturn('/some/other/route');
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/route')
+                            ->once();
 
         $this->call('PUT', 'some/route');
     }
@@ -40,8 +42,37 @@ class CashTest extends TestCase
     public function testRuleWithArrayNotation()
     {
         Cash::rule('put', 'some/route', array('a', 'b'));
-        \MemcachedInstance::shouldReceive('forget')->with('/a')->once();
-        \MemcachedInstance::shouldReceive('forget')->with('/b')->once();
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('a')
+                            ->once()
+                            ->andReturn('/a');
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('b')
+                            ->once()
+                            ->andReturn('/b');
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/a')
+                            ->once();
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/b')
+                            ->once();
+
+        $this->call('PUT', 'some/route');
+    }
+
+    public function testRuleWithMultipleCachedResponses()
+    {
+        Cash::rule('put', 'some/route', 'some/other');
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('some/other')
+                            ->once()
+                            ->andReturn('/some/other/route;/some/other/different/route');
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/route')
+                            ->once();
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/different/route')
+                            ->once();
 
         $this->call('PUT', 'some/route');
     }
