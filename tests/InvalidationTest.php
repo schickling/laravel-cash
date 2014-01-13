@@ -77,4 +77,55 @@ class CashTest extends TestCase
         $this->call('PUT', 'some/route');
     }
 
+    public function testRuleWithAppendingSlash()
+    {
+        Cash::rule('put', 'some/route', 'some/other/');
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('some/other')
+                            ->once()
+                            ->andReturn('/some/other/route;/some/other/different/route');
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/route')
+                            ->once();
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/different/route')
+                            ->once();
+
+        $this->call('PUT', 'some/route');
+    }
+
+    public function testRuleWithAsterixNotation()
+    {
+        Cash::rule('put', 'some/route', 'some/other/*');
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('some/other')
+                            ->once()
+                            ->andReturn('/some/other/route;/some/other/different/route');
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/route')
+                            ->once();
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/different/route')
+                            ->once();
+
+        $this->call('PUT', 'some/route');
+    }
+
+    public function testRuleWithMultipleAsterixNotation()
+    {
+        Cash::rule('put', 'some/route', 'some/other/*/random/*');
+        \MemcachedInstance::shouldReceive('get')
+                            ->with('some/other')
+                            ->once()
+                            ->andReturn('/some/other/route;/some/other/different/route');
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/route')
+                            ->once();
+        \MemcachedInstance::shouldReceive('forget')
+                            ->with('/some/other/different/route')
+                            ->once();
+
+        $this->call('PUT', 'some/route');
+    }
+
 }

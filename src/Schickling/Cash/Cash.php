@@ -45,6 +45,13 @@ class Cash
 
     public function invalidate($route)
     {
+        // chop asterixs
+        $route = preg_replace('/\*.*/', '', $route);
+        // trim appending slash
+        if (substr($route, -1, 1) == '/')
+        {
+            $route = substr($route, 0, -1);
+        }
         $routesToInvalidate = explode(';', MemcachedInstance::get($route));
         foreach ($routesToInvalidate as $cacheKey) {
             MemcachedInstance::forget($cacheKey);
