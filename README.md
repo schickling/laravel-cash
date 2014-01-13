@@ -64,13 +64,27 @@ server {
 Add the `'after' => 'cash'` filter to `GET` routes you want to be cached. Works also for groups of routes.
 
 ```php
-Route::get('my/route', array('after' => 'cash', function() {
-	return "Hello World";
+Route::get('users', array('after' => 'cash', function() {
+	return User::all();
 }));
 ```
 
 ### Define invalidation roules
+Let's say you have a cached `GET users` route to retrieve all users and a `POST users` route to create a new user. Your goal is to invalidate the `GET /users` cache if a new user was created. Just put the following code in your `routes.php`
 
+```php
+Cash::rule('POST', 'users', 'users');
+```
+
+#### Multiple route caches
+```php
+Cash::rule('POST', 'users', array('users', 'premium/users'));
+```
+
+#### Dynamic rules
+```php
+Cash::rule('POST', 'users', 'users/*');
+```
 
 ### Flush cache
 Simply restart memcached.
@@ -80,4 +94,3 @@ Simply restart memcached.
 
 * Support for named routes
 * More precise hierarchic invalidation
-* Simpler rule definitions
