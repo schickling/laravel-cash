@@ -94,3 +94,5 @@ Simply restart memcached.
 
 * Support for named routes
 * More precise hierarchic invalidation
+* Apache support
+* Memcache support
