@@ -13,7 +13,7 @@ class CashFilter {
         {
             $path = Request::path();
             $content = $response->getContent();
-            $routeName = Route::getCurrentRoute()->getCompiled()->getStaticPrefix();
+            $routeName = Route::current()->getCompiled()->getStaticPrefix();
 
             // prepend slash if not there already
             if (substr($path, 0, 1) != '/')
