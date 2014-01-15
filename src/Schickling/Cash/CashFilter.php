@@ -23,9 +23,14 @@ class CashFilter {
             // cache response
             MemcachedDriver::put($path, $content, $secondsToLife);
 
-            // alreadyTaggedRoutes cached response
+            // remember cached response
             $staticRouteName = Route::current()->getCompiled()->getStaticPrefix();
-            $alreadyTaggedRoutes = MemcachedDriver::get('tag:' . $staticRouteName);
+            if (substr($staticRouteName, 0, 1) == '/' && $staticRouteName != '/')
+            {
+                $staticRouteName = substr($staticRouteName, 1);
+            }
+            $tag = 'tag:' . $staticRouteName;
+            $alreadyTaggedRoutes = MemcachedDriver::get($tag);
             if ($alreadyTaggedRoutes)
             {
                 $alreadyTaggedRoutes = $alreadyTaggedRoutes . ';' . $path;    
@@ -34,7 +39,7 @@ class CashFilter {
             {
                 $alreadyTaggedRoutes = $path;
             }
-            MemcachedDriver::put($staticRouteName, $alreadyTaggedRoutes, 0);
+            MemcachedDriver::put($tag, $alreadyTaggedRoutes, 0);
         }
     }
 
