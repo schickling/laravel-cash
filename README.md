@@ -102,3 +102,4 @@ Simply restart memcached.
 * Apache support
 * Memcache support
 * Cache warmup
+* Individual cache rewarmup
