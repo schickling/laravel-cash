@@ -31,7 +31,7 @@ upstream memcached {
     keepalive 1024;
 }
 
-upstream backend {
+upstream laravel {
     server 127.0.0.1:9999;
 }
 
@@ -48,16 +48,16 @@ server {
         default_type "application/json";
         if ($request_method = GET) {
             set $memcached_key laravel:$request_uri;
-            memcached_pass memcached;
+            memcached_pass laravel;
             error_page 404 502 = @nocache;
         }
         if ($request_method != GET) {
-            fastcgi_pass backend;
+            fastcgi_pass laravel;
         }
     }
 
     location @nocache {
-        fastcgi_pass backend;
+        fastcgi_pass laravel;
     }
 }
 ```
