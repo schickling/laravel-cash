@@ -68,7 +68,8 @@ server {
 Add the `'after' => 'cash'` filter to `GET` routes you want to be cached. Works also for groups of routes.
 
 ```php
-Route::get('users', array('after' => 'cash', function() {
+Route::get('users', array('after' => 'cash', function()
+{
 	return User::all();
 }));
 ```
