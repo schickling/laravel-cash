@@ -76,7 +76,7 @@ Route::get('users', array('after' => 'cash', function()
 
 ### Define invalidation roules
 
-Add rules of the following syntax in your `routes.php` file.
+Add rules of the following syntax in your `routes.php` file. The `$routeToInvalidate` parameter may be a string or an array and describe always `GET` routes.
 ```php
 Cash::rule($httpMethod, $triggerRoute, $routesToInvalidate);
 ```
