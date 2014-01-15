@@ -75,6 +75,11 @@ Route::get('users', array('after' => 'cash', function()
 ```
 
 ### Define invalidation roules
+
+```php
+Cash::rule($httpMethod, $triggerRoute, $routesToInvalidate);
+```
+
 Let's say you have a cached `GET users` route to retrieve all users and a `POST users` route to create a new user. Your goal is to invalidate the `GET users` cache if a new user was created. Just put the following code in your `routes.php`
 
 ```php
