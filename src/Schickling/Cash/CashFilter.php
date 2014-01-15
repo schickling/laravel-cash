@@ -1,7 +1,6 @@
 <?php namespace Schickling\Cash;
 
-use MemcachedInstance;
-use Memcached;
+use MemcachedDriver;
 use Request;
 use Route;
 
@@ -12,33 +11,30 @@ class CashFilter {
         if (Request::getMethod() == 'GET')
         {
             $path = Request::path();
+            $secondsToLife = 0;
             $content = $response->getContent();
-            $routeName = Route::current()->getCompiled()->getStaticPrefix();
 
-            // prepend slash if not there already
+            // prepend slash if not there already (required by nginx)
             if (substr($path, 0, 1) != '/')
             {
                 $path = '/' . $path;
             }
 
-            // switch of serialization
-            $memcached = MemcachedInstance::getMemcached();
-            $memcached->setOption(Memcached::OPT_COMPRESSION, false);
-
             // cache response
-            MemcachedInstance::put($path, $content, 0);
+            MemcachedDriver::put($path, $content, $secondsToLife);
 
-            // tag cached response
-            $tag = MemcachedInstance::get($routeName);
-            if ($tag)
+            // alreadyTaggedRoutes cached response
+            $staticRouteName = Route::current()->getCompiled()->getStaticPrefix();
+            $alreadyTaggedRoutes = MemcachedDriver::get('tag:' . $staticRouteName);
+            if ($alreadyTaggedRoutes)
             {
-                $tag = $tag . ';' . $path;    
+                $alreadyTaggedRoutes = $alreadyTaggedRoutes . ';' . $path;    
             }
             else
             {
-                $tag = $path;
+                $alreadyTaggedRoutes = $path;
             }
-            MemcachedInstance::put($routeName, $tag, 0);
+            MemcachedDriver::put($staticRouteName, $alreadyTaggedRoutes, 0);
         }
     }
 

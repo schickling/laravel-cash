@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use Route;
 use App;
 use Cache;
+use Memcached;
 
 class CashServiceProvider extends ServiceProvider {
 
@@ -43,16 +44,19 @@ class CashServiceProvider extends ServiceProvider {
             return $cash;
         });
 
-        $this->app['memcachedInstance'] = $this->app->share(function($app)
+        $this->app['memcachedDriver'] = $this->app->share(function($app)
         {
-            return Cache::driver('memcached');
+            $memcachedDriver = Cache::driver('memcached');
+            $memcached = $memcachedDriver->getMemcached();
+            $memcached->setOption(Memcached::OPT_COMPRESSION, false);
+            return $memcachedDriver;
         });
 
         $this->app->booting(function()
         {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Cash', 'Schickling\Cash\Facades\Cash');
-            $loader->alias('MemcachedInstance', 'Schickling\Cash\Facades\MemcachedInstance');
+            $loader->alias('MemcachedDriver', 'Schickling\Cash\Facades\MemcachedDriver');
         });
     }
 

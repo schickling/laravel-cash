@@ -28,11 +28,11 @@ class CashTest extends TestCase
     public function testSimpleRule()
     {
         Cash::rule('put', 'some/route', 'some/other/route');
-        \MemcachedInstance::shouldReceive('get')
-                            ->with('some/other/route')
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:some/other/route')
                             ->once()
                             ->andReturn('/some/other/route');
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/route')
                             ->once();
 
@@ -42,18 +42,18 @@ class CashTest extends TestCase
     public function testRuleWithArrayNotation()
     {
         Cash::rule('put', 'some/route', array('a', 'b'));
-        \MemcachedInstance::shouldReceive('get')
-                            ->with('a')
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:a')
                             ->once()
                             ->andReturn('/a');
-        \MemcachedInstance::shouldReceive('get')
-                            ->with('b')
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:b')
                             ->once()
                             ->andReturn('/b');
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/a')
                             ->once();
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/b')
                             ->once();
 
@@ -63,14 +63,14 @@ class CashTest extends TestCase
     public function testRuleWithMultipleCachedResponses()
     {
         Cash::rule('put', 'some/route', 'some/other');
-        \MemcachedInstance::shouldReceive('get')
-                            ->with('some/other')
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:some/other')
                             ->once()
                             ->andReturn('/some/other/route;/some/other/different/route');
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/route')
                             ->once();
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/different/route')
                             ->once();
 
@@ -80,14 +80,14 @@ class CashTest extends TestCase
     public function testRuleWithAppendingSlash()
     {
         Cash::rule('put', 'some/route', 'some/other/');
-        \MemcachedInstance::shouldReceive('get')
-                            ->with('some/other')
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:some/other')
                             ->once()
                             ->andReturn('/some/other/route;/some/other/different/route');
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/route')
                             ->once();
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/different/route')
                             ->once();
 
@@ -97,14 +97,14 @@ class CashTest extends TestCase
     public function testRuleWithAsterixNotation()
     {
         Cash::rule('put', 'some/route', 'some/other/*');
-        \MemcachedInstance::shouldReceive('get')
-                            ->with('some/other')
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:some/other')
                             ->once()
                             ->andReturn('/some/other/route;/some/other/different/route');
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/route')
                             ->once();
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/different/route')
                             ->once();
 
@@ -114,14 +114,14 @@ class CashTest extends TestCase
     public function testRuleWithMultipleAsterixNotation()
     {
         Cash::rule('put', 'some/route', 'some/other/*/random/*');
-        \MemcachedInstance::shouldReceive('get')
-                            ->with('some/other')
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:some/other')
                             ->once()
                             ->andReturn('/some/other/route;/some/other/different/route');
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/route')
                             ->once();
-        \MemcachedInstance::shouldReceive('forget')
+        \MemcachedDriver::shouldReceive('forget')
                             ->with('/some/other/different/route')
                             ->once();
 

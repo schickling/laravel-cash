@@ -3,7 +3,7 @@
 use App;
 use Request;
 use Illuminate\Routing\Route;
-use MemcachedInstance;
+use MemcachedDriver;
 
 class Cash
 {
@@ -52,9 +52,9 @@ class Cash
         {
             $route = substr($route, 0, -1);
         }
-        $routesToInvalidate = explode(';', MemcachedInstance::get($route));
+        $routesToInvalidate = explode(';', MemcachedDriver::get('tag:' . $route));
         foreach ($routesToInvalidate as $cacheKey) {
-            MemcachedInstance::forget($cacheKey);
+            MemcachedDriver::forget($cacheKey);
         }
     }
 
