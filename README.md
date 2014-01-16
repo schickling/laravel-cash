@@ -5,16 +5,16 @@ Simple to use cache layer for your laravel application using memcached & nginx. 
 
 ## How it works
 
-Your application caches the responses to GET requests to memcached using the Request-URI as key. Following requests get served this content by nginx directly from memcached. PHP is never even hit. Writing actions can easily invalidate the cache.
+The packages caches the responses to `GET` requests in memcached using the URL as key. Any further requests get served the cached content by nginx directly without running PHP. Writing actions can easily invalidate the cache.
 
-## Features
+### Features
 
 * Easy to setup and use
 * Self defined invalidation rules
 * Automatic cache refilling
 * Cache warmup
 
-## Dependencies
+### Dependencies
 * Laravel 4.1
 * memcached
 * PHP memcached extension
