@@ -5,9 +5,16 @@ Simple to use cache layer for your laravel application using memcached & nginx. 
 
 ## How it works
 
-Your application caches the responses to GET requests to memcached using the Request-URI as key. Following requests get served this content by nginx directly from memcached, php/laravel is never even hit. Writing actions can easily invalidate the cache.
+Your application caches the responses to GET requests to memcached using the Request-URI as key. Following requests get served this content by nginx directly from memcached. PHP is never even hit. Writing actions can easily invalidate the cache.
 
-## Installation - Laravel 4.1 required
+## Features
+
+* Easy to setup and use
+* Self defined invalidation rules
+* Automatic cache refilling
+* Cache warmup
+
+## Quick setup - Laravel 4.1 required
 
 1. If you don't have memcached already installed, follow this [guide](https://github.com/schickling/laravel-cash/blob/master/doc/MEMCACHED.md).
 
@@ -23,7 +30,7 @@ Your application caches the responses to GET requests to memcached using the Req
 
 3. Add `Schickling\Cash\CashServiceProvider` to your config/app.php
 
-4. Ajust your nginx vhost
+4. Ajust your nginx vhost ([more configurations](https://github.com/schickling/laravel-cash/blob/master/doc/NGINX.md))
 
 ```nginx
 upstream memcached {
@@ -101,9 +108,10 @@ Cash::rule('POST', 'users', 'users/*');
 Simply restart memcached.
 
 
-## TODO (please contribute a [pull request](https://github.com/schickling/laravel-cash/compare/))
+## Coming soon (please contribute a [pull request](https://github.com/schickling/laravel-cash/compare/))
 
 * Support for named routes
+* Support for rules in route group scope
 * More precise hierarchic invalidation
 * Apache support
 * Memcache support
