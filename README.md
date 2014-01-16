@@ -81,7 +81,7 @@ Route::get('users', array('after' => 'cash', function()
 }));
 ```
 
-### Define invalidation roules
+### Define invalidation rules
 
 Add rules of the following syntax in your `routes.php` file. The `$routeToInvalidate` parameter may be a string or an array and describe always `GET` routes.
 ```php
