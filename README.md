@@ -14,11 +14,14 @@ Your application caches the responses to GET requests to memcached using the Req
 * Automatic cache refilling
 * Cache warmup
 
-## Quick setup - Laravel 4.1 required
+## Dependencies
+* Laravel 4.1
+* memcached
+* PHP memcached extension
 
-1. If you don't have memcached already installed, follow this [guide](https://github.com/schickling/laravel-cash/blob/master/doc/MEMCACHED.md).
+## Quick setup
 
-2. Add the following to your composer.json and run `composer update`
+1. Add the following to your composer.json and run `composer update`
 
     ```json
     {
@@ -28,9 +31,9 @@ Your application caches the responses to GET requests to memcached using the Req
     }
     ```
 
-3. Add `Schickling\Cash\CashServiceProvider` to your config/app.php
+2. Add `Schickling\Cash\CashServiceProvider` to your config/app.php
 
-4. Ajust your nginx vhost ([more configurations](https://github.com/schickling/laravel-cash/blob/master/doc/NGINX.md))
+3. Ajust your nginx vhost ([more configurations](https://github.com/schickling/laravel-cash/blob/master/doc/NGINX.md))
 
     ```nginx
     upstream memcached {
