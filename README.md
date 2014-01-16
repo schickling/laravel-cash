@@ -94,12 +94,12 @@ Let's say you have a cached `GET users` route to retrieve all users and a `POST 
 Cash::rule('POST', 'users', 'users');
 ```
 
-#### Multiple route caches
+##### Multiple route caches
 ```php
 Cash::rule('POST', 'users', array('users', 'premium/users'));
 ```
 
-#### Dynamic rules
+##### Dynamic rules
 ```php
 Cash::rule('POST', 'users', 'users/*');
 ```
