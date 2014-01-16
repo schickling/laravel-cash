@@ -32,42 +32,42 @@ Your application caches the responses to GET requests to memcached using the Req
 
 4. Ajust your nginx vhost ([more configurations](https://github.com/schickling/laravel-cash/blob/master/doc/NGINX.md))
 
-```nginx
-upstream memcached {
-    server 127.0.0.1:11211;
-    keepalive 1024;
-}
+    ```nginx
+    upstream memcached {
+        server 127.0.0.1:11211;
+        keepalive 1024;
+    }
 
-upstream laravel {
-    server 127.0.0.1:9999;
-}
+    upstream laravel {
+        server 127.0.0.1:9999;
+    }
 
-server {
-    listen *:80;
-    server_name myapp.dev;
+    server {
+        listen *:80;
+        server_name myapp.dev;
 
-    root /path/to/your/public;
-    index index.php;
+        root /path/to/your/public;
+        index index.php;
 
-    rewrite ^/(.*)$ /index.php?/$1 last;
+        rewrite ^/(.*)$ /index.php?/$1 last;
 
-    location ~ \.php$ {
-        default_type "application/json";
-        if ($request_method = GET) {
-            set $memcached_key laravel:$request_uri;
-            memcached_pass laravel;
-            error_page 404 502 = @nocache;
+        location ~ \.php$ {
+            default_type "application/json";
+            if ($request_method = GET) {
+                set $memcached_key laravel:$request_uri;
+                memcached_pass laravel;
+                error_page 404 502 = @nocache;
+            }
+            if ($request_method != GET) {
+                fastcgi_pass laravel;
+            }
         }
-        if ($request_method != GET) {
+
+        location @nocache {
             fastcgi_pass laravel;
         }
     }
-
-    location @nocache {
-        fastcgi_pass laravel;
-    }
-}
-```
+    ```
 
 ## Usage
 
