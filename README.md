@@ -16,8 +16,8 @@ The packages caches the responses to `GET` requests in memcached using the URL a
 
 ### Dependencies
 * Laravel 4.1
-* memcached
-* PHP memcached extension
+* nginx ([installation guide](https://github.com/schickling/laravel-cash/blob/master/doc/NGINX.md))
+* memcached && PHP memcached extension ([installation guide](https://github.com/schickling/laravel-cash/blob/master/doc/MEMCACHED.md))
 
 ## Quick setup
 
