@@ -96,7 +96,17 @@ class CashTest extends TestCase
 
     public function testRuleWithAsterixNotationForTriggerRoute()
     {
+        Cash::rule('put', 'some/other/.*/route', 'something/different');
 
+        \MemcachedDriver::shouldReceive('get')
+                            ->with('tag:something/different')
+                            ->once()
+                            ->andReturn('/something/different');
+        \MemcachedDriver::shouldReceive('forget')
+                            ->with('/something/different')
+                            ->once();
+
+        $this->call('PUT', 'some/other/123/route');
     }
 
     public function testRuleWithAsterixNotationForRoutesToInvalidate()
