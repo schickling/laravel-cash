@@ -106,12 +106,12 @@ Cash::rule('POST', 'users', array('users', 'premium/users'));
 
 ###### Dynamic trigger routes
 ```php
-Cash::rule('POST', 'users/.\*/photos', 'photos');
+Cash::rule('POST', 'users/.*/photos', 'photos');
 ```
 
 ###### Dynamic invalidation routes
 ```php
-Cash::rule('POST', 'users', 'users/*');
+Cash::rule('POST', 'photos', 'photos/*');
 ```
 
 
