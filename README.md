@@ -103,9 +103,15 @@ Cash::rule('POST', 'users', array('users', 'premium/users'));
 ```
 
 ##### Dynamic rules
+
+###### Dynamic trigger routes
 ```php
-Cash::rule('POST', 'users', 'users/*');
+Cash::rule('POST', 'users/.\*/photos', 'photos');
 ```
+
+###### Dynamic invalidation routes
+Cash::rule('POST', 'users', 'users/*');
+
 
 ### Flush cache
 Simply restart memcached.
