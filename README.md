@@ -110,7 +110,9 @@ Cash::rule('POST', 'users/.\*/photos', 'photos');
 ```
 
 ###### Dynamic invalidation routes
+```php
 Cash::rule('POST', 'users', 'users/*');
+```
 
 
 ### Flush cache
