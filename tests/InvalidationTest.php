@@ -6,7 +6,7 @@ use Mockery as m;
 
 class CashTest extends TestCase
 {
-    public function setUp() 
+    public function setUp()
     {
         parent::setUp();
 
@@ -94,7 +94,12 @@ class CashTest extends TestCase
         $this->call('PUT', 'some/route');
     }
 
-    public function testRuleWithAsterixNotation()
+    public function testRuleWithAsterixNotationForTriggerRoute()
+    {
+
+    }
+
+    public function testRuleWithAsterixNotationForRoutesToInvalidate()
     {
         Cash::rule('put', 'some/route', 'some/other/*');
         \MemcachedDriver::shouldReceive('get')
@@ -111,7 +116,7 @@ class CashTest extends TestCase
         $this->call('PUT', 'some/route');
     }
 
-    public function testRuleWithMultipleAsterixNotation()
+    public function testRuleWithMultipleAsterixNotationForRoutesToInvalidate()
     {
         Cash::rule('put', 'some/route', 'some/other/*/random/*');
         \MemcachedDriver::shouldReceive('get')
